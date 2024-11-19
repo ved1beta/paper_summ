@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+transformers
+torch
+pydantic
+python-multipart
+typing-extensions
+tqdm
+pyYAML
