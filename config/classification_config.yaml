@@ -1,0 +1,11 @@
+# config/classification_config.yaml
+section_classifier:
+  model_name: "bert-base-uncased"
+  labels: 
+    - "Abstract"
+    - "Introduction"
+    - "Methodology"
+    - "Results"
+    - "Discussion"
+    - "Conclusion"
+  confidence_threshold: 0.5
