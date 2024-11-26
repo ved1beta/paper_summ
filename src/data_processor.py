@@ -1,19 +1,24 @@
 import PyPDF2
 import re
+ 
+import fitz
+from tqdm.auto import tqdm 
 
-class PaperProcessor:
-    def __init__(self):
-        self.text = ""
-    
-    def extract_from_pdf(self, pdf_path):
-        with open(pdf_path, 'rb') as file:
-            reader = PyPDF2.PdfReader(file)
-            for page in reader.pages:
-                self.text += page.extract_text()
-        return self.clean_text()
-    
-    def clean_text(self):
-        # Remove special characters and normalize
-        cleaned = re.sub(r'\s+', ' ', self.text)
-        cleaned = re.sub(r'[^\w\s.,?!]', '', cleaned)
-        return cleaned.strip() 
+def text_formatter(text : str )->str:
+    """
+    This function is used to format the text extracted from the pdf files.
+    """
+    text_clean = text.replace("\n"," ").strip()
+    return text_clean
+def open_read_pdf(pdf_path):
+    doc = fitz.open(pdf_path)
+    pages_text = []
+    for page , page_num in tqdm(enumerate(doc)):
+        text = page.get_text()
+        text = text_formatter(text=text)
+
+        pages_text.append({
+            "page_num":page_num,
+            "text":text,
+            "pages_token_count" : len(text)/4
+        })
